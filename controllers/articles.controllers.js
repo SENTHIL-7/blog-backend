@@ -49,7 +49,7 @@ export const updateArticle = async (req, res) => {
     const {id} = req.params;
     const authorId  =1;
     const {title ,image_url ,excerpt ,content ,tags} = req.body;
-    const result = await pool.query('UPDATE articles SET title = $1, image_url = $2, excerpt = $3, content = $4, tags = $5  WHERE id = $5 AND author_id = $6 RETURNING *', [title ,image_url ,excerpt ,content ,tags ,id ,authorId]);
+    const result = await pool.query('UPDATE articles SET title = $1, image_url = $2, excerpt = $3, content = $4, tags = $5  WHERE id = $6 AND author_id = $7 RETURNING *', [title ,image_url ,excerpt ,content ,tags ,id ,authorId]);
     res.status(200).send(result.rows[0]);
   }
   catch(error){
