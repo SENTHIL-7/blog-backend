@@ -1,9 +1,9 @@
-
-import {pool} from "../db.js";
+import {findAll ,create, update, findOne} from '../services/article.service.js';
 export const getAllArticles = async (req, res) => {
+  console.log(req.cookies['authcookie'])
   try{
-    const articles = await pool.query('SELECT * FROM articles');
-    res.status(200).send(articles.rows);
+    const articles = await findAll();
+    res.status(200).send(articles);
   }
   catch(error){
     console.log(error);
@@ -15,15 +15,16 @@ export const getAllArticles = async (req, res) => {
 export const getArticle = async (req, res) => {
   try{
     const {id} = req.params;
-    const authorId  =1;
-    const article = await pool.query('SELECT * FROM articles WHERE id = $1', [id]);
-    const authorName = await pool.query('SELECT name FROM authors WHERE id = $1', [authorId]);
-    console.log('authorName',authorName)
-    const result ={
-      authorName : authorName.rows[0].name,
-      ...article.rows[0]
-    }
-    res.status(200).send(result);
+    const articles = await findOne(id);
+    // const authorName = await   
+    // const article = await pool.query('SELECT * FROM articles WHERE id = $1', [id]);
+    // const authorName = await pool.query('SELECT name FROM authors WHERE id = $1', [authorId]);
+    // console.log('authorName',authorName)
+    // const result ={
+    //   authorName : authorName.rows[0].name,
+    //   ...article.rows[0]
+    // }
+    res.status(200).send(articles);
   }
   catch(error){
     console.log(error);
@@ -47,9 +48,9 @@ export const deleteArticle = async (req, res) => {
 export const updateArticle = async (req, res) => {
   try{
     const {id} = req.params;
-    const authorId  =1;
-    const {title ,image_url ,excerpt ,content ,tags} = req.body;
-    const result = await pool.query('UPDATE articles SET title = $1, image_url = $2, excerpt = $3, content = $4, tags = $5  WHERE id = $6 AND author_id = $7 RETURNING *', [title ,image_url ,excerpt ,content ,tags ,id ,authorId]);
+    const author_id = req.user.id;
+    const {title ,image_url ,excerpt ,content ,tags , date} = req.body;
+    const result = await update({title ,image_url ,excerpt ,content ,tags ,date ,author_id},id);
     res.status(200).send(result.rows[0]);
   }
   catch(error){
@@ -60,10 +61,10 @@ export const updateArticle = async (req, res) => {
 
 export const createArticle = async (req, res) => {
   try{
-    const {title ,image_url ,excerpt ,content ,tags} = req.body;
-    const author_id  =1;
-    const articles = await pool.query('INSERT INTO articles (title ,author_id  ,image_url ,excerpt ,content ,tags) VALUES ($1, $2, $3, $4, $5 ,$6) RETURNING *', [title ,author_id  ,image_url ,excerpt ,content,tags ]);
-    res.status(201).send(articles.rows);
+    const {title ,image_url ,excerpt ,content ,tags , date} = req.body;
+    const author_id  =req.user.id;
+    const articles = await create({title ,image_url ,excerpt ,content ,tags ,author_id ,date});
+    res.status(201).send(articles);
   }
   catch(error){
     console.log(error);
