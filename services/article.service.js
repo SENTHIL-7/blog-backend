@@ -3,7 +3,14 @@ import db from '../models/index.js'
 import models from '../models/index.js';
 const {article} = db.db;
 
-const findAll = async () => {
+const findAll = async (id) => {
+  if(id){
+    return await article.findAll({
+      where :{
+        author_id : id
+      }
+    });
+  }
   return await article.findAll();
 }
 
@@ -38,9 +45,19 @@ const update = async (data , id) =>{
       author_id : data.author_id
     }
   });}
+
+const destroy = async (id, authorId) => {
+  return await article.destroy({
+    where :{
+      id : id,
+      author_id : authorId
+    }
+  });
+}
 export {
   findAll,
   findOne,
   create,
-  update
+  update,
+  destroy
 }

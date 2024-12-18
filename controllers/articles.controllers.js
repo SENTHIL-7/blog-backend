@@ -1,4 +1,4 @@
-import {findAll ,create, update, findOne} from '../services/article.service.js';
+import {findAll ,create, update, findOne, destroy} from '../services/article.service.js';
 export const getAllArticles = async (req, res) => {
   console.log(req.cookies['authcookie'])
   try{
@@ -34,9 +34,9 @@ export const getArticle = async (req, res) => {
 export const deleteArticle = async (req, res) => {
   try{
     const {id} = req.params;
-    const authorId  =1;
-    const result = await pool.query('DELETE FROM articles WHERE id = $1 AND author_id = $2 RETURNING *', [id,authorId]);
-    res.status(200).send(result.rows[0]);
+    const authorId = req.user.id;
+    const result = await destroy(id,authorId);
+    res.status(200).send(result);
   }
   catch(error){
     console.log(error);
@@ -51,7 +51,7 @@ export const updateArticle = async (req, res) => {
     const author_id = req.user.id;
     const {title ,image_url ,excerpt ,content ,tags , date} = req.body;
     const result = await update({title ,image_url ,excerpt ,content ,tags ,date ,author_id},id);
-    res.status(200).send(result.rows[0]);
+    res.status(200).send(result);
   }
   catch(error){
     console.log(error);
@@ -110,9 +110,9 @@ export const bulkArticle = async (req, res) => {
 
 export const getAuthorArticles = async (req, res) => {
   try{
-    const adminId = 1;
-    const articles = await pool.query('SELECT * FROM articles WHERE author_id=$1',[adminId]);
-    res.status(200).send(articles.rows);
+    const adminId = req.user.id;
+    const articles = await findAll(adminId);
+    res.status(200).send(articles);
   }
   catch(error){
     console.log(error);

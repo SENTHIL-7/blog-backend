@@ -10,7 +10,8 @@ export default (sequelize, DataTypes)=>{
     author_id: DataTypes.INTEGER,
     date : DataTypes.DATE,
     image_url : DataTypes.TEXT,
-    excerpt : DataTypes.TEXT
+    excerpt : DataTypes.TEXT,
+    tags: DataTypes.STRING(255)
   },{
     tableName : 'articles',
     schema : 'article'
