@@ -16,14 +16,6 @@ export const getArticle = async (req, res) => {
   try{
     const {id} = req.params;
     const articles = await findOne(id);
-    // const authorName = await   
-    // const article = await pool.query('SELECT * FROM articles WHERE id = $1', [id]);
-    // const authorName = await pool.query('SELECT name FROM authors WHERE id = $1', [authorId]);
-    // console.log('authorName',authorName)
-    // const result ={
-    //   authorName : authorName.rows[0].name,
-    //   ...article.rows[0]
-    // }
     res.status(200).send(articles);
   }
   catch(error){

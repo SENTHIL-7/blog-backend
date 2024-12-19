@@ -8,8 +8,8 @@ export const getAuthors = async (req, res) => {
     res.status(422).send(error)
   }
 }
-export const createAuthor = async (req, res) => {
-  console.log('createAuthor',req.body)
+export const signup = async (req, res) => {
+  console.log('signup',req.body)
   try {
     const author = await create(req.body);
     res.status(200).send(author)

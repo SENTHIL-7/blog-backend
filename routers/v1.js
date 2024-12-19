@@ -1,6 +1,6 @@
 import express  from "express";
 const router = express.Router();
-import { createAuthor, getAuthors } from "../controllers/author.controllers.js";
+import { signup, getAuthors } from "../controllers/author.controllers.js";
 import { createArticle, getAllArticles,getAuthorArticles,deleteArticle ,getArticle, bulkArticle ,updateArticle} from "../controllers/articles.controllers.js";
 import { login, refreshToken } from "../controllers/auth.controllers.js";
 import passportConfig from "../middleware/passport.js";
@@ -12,7 +12,7 @@ router.post('/refreshToken', refreshToken);
 
 // admit route
 router.get('/authors',getAuthors);
-router.post('/author', createAuthor);
+router.post('/signup', signup);
 router.get('/admin/bloglist',passport.authenticate('jwt', { session: false }), getAuthorArticles);
 router.post('/admin/blog',passport.authenticate('jwt', { session: false }), createArticle);
 router.delete('/admin/blog/:id',passport.authenticate('jwt', { session: false }), deleteArticle);

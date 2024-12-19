@@ -2,7 +2,9 @@ import db from '../models/index.js'
 const {author} = db.db;
 
 const create = async data => {
-  return await author.create(data);
+   let result = await author.create(data);
+   delete result.dataValues.password;
+   return result
 }
 
 const findAll = async () => {
