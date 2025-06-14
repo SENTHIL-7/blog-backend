@@ -19,7 +19,7 @@ export default (sequelize, DataTypes)=>{
 
   article.associate = function(models) {
     this.belongsTo(models.author, {
-      foreignKey: 'author_id', // Explicitly define the foreign key
+      foreignKey: 'author_id',
       as: 'author'
     });
   }
