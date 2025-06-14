@@ -5,6 +5,7 @@ import { createArticle, getAllArticles,getAuthorArticles,deleteArticle ,getArtic
 import { login, refreshToken } from "../controllers/auth.controllers.js";
 import passportConfig from "../middleware/passport.js";
 import passport from "passport";
+import { generateBlog } from "../controllers/blogGenerater.controllers.js";
 passportConfig(passport);
 // auth route
 router.post('/login', login);
@@ -19,6 +20,7 @@ router.delete('/admin/blog/:id',passport.authenticate('jwt', { session: false })
 router.put('/admin/blog/:id',passport.authenticate('jwt', { session: false }), updateArticle);
 router.get('/admin/blog/:id',passport.authenticate('jwt', { session: false }), getArticle);
 router.post('/admin/bulkBlog',passport.authenticate('jwt', { session: false }), bulkArticle);
+router.get('/api/generateBlog',passport.authenticate('jwt', { session: false }), generateBlog)
 
 // generate route
 router.get('/blogList',getAllArticles);
