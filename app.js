@@ -4,7 +4,6 @@ import cors from "cors";
 import helmet from 'helmet';
 import passport from 'passport';
 import {decrypt} from './services/crypto.service.js';
-import cookieParser from "cookie-parser";
 const app = express();
 
 // disable `X-Powered-By` header that reveals information about the server
@@ -24,7 +23,7 @@ app.use(express.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser());
+
 // Initialize passport for authentication
 app.use(passport.initialize());
 

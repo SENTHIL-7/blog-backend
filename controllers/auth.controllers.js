@@ -16,7 +16,7 @@ const login = async function (req, res) {
       };
       try {
         token = await user.getJWT();
-        res.cookie('authcookie',token,{maxAge:900000,httpOnly:false})
+        // res.cookie('authcookie',token,{maxAge:900000,httpOnly:false})
         res.status(200).send({ token, refreshToken, user });
       } catch (error) {
         return res.status(422).send(error);

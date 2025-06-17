@@ -1,6 +1,6 @@
 import {findAll ,create, update, findOne, destroy} from '../services/article.service.js';
 export const getAllArticles = async (req, res) => {
-  console.log(req.cookies['authcookie'])
+  // console.log(req.cookies['authcookie'])
   try{
     const articles = await findAll();
     res.status(200).send(articles);
@@ -27,8 +27,13 @@ export const deleteArticle = async (req, res) => {
   try{
     const {id} = req.params;
     const authorId = req.user.id;
+    console.log('authorId: ', authorId);
     const result = await destroy(id,authorId);
-    res.status(200).send(result);
+    console.log('result: ', result);
+    res.status(200).send({
+      message: "Article deleted successfully",
+      result
+    });
   }
   catch(error){
     console.log(error);
