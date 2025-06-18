@@ -8,7 +8,6 @@ import 'dotenv/config';
   DB_USER: process.env.DB_USER || 'postgres',
   DB_PASSWORD: process.env.DB_PASSWORD || 'postgres',
   APP : process.env.APP ||'local',
-  jwt_encryption : process.env.JWT_ENCRYPTION || 'please_change',
   jwt_expiration : process.env.JWT_EXPIRATION || 1800000,
   // jwtSecret: process.env.JWT_SECRET,
   // jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
